@@ -105,6 +105,10 @@ namespace Microsoft.PowerShell.EditorServices.Server
                             if (_isTemp)
                             {
                                 _psesHost.DebugServer = server;
+                                if (_psesHost.UI is NullPSHostUI nullUI)
+                                {
+                                    nullUI.DebugServer = server;
+                                }
                             }
 
                             // Clear any existing breakpoints before proceeding.
