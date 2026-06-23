@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
@@ -30,6 +30,12 @@ namespace Microsoft.PowerShell.EditorServices.Handlers
         /// Gets or sets the absolute path to the script to debug.
         /// </summary>
         public string Script { get; set; }
+
+        /// <summary>
+        /// Gets or sets the program path, used by standard DAP clients (e.g., OMP).
+        /// This is a fallback for <see cref="Script"/> when the client sends "program" instead of "script".
+        /// </summary>
+        public string Program { get; set; }
 
         /// <summary>
         /// Gets or sets a boolean value that determines whether to automatically stop
@@ -528,7 +534,7 @@ namespace Microsoft.PowerShell.EditorServices.Handlers
 
         private string GetLaunchScript(PsesLaunchRequestArguments request)
         {
-            string scriptToLaunch = request.Script;
+            string scriptToLaunch = request.Script ?? request.Program;
             if (request.CreateTemporaryIntegratedConsole
                 && !string.IsNullOrEmpty(scriptToLaunch)
                 && ScriptFile.IsUntitledPath(scriptToLaunch))
