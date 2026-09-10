@@ -302,8 +302,15 @@ namespace Microsoft.PowerShell.EditorServices.Services.TextDocument
 
             if (fileChange.IsReload)
             {
+                // A reload replaces the whole buffer. Split on '\n' leaves a
+                // trailing '\r' on every CRLF line, and Contents rejoins with
+                // Environment.NewLine, which would yield "\r\r\n". Strip the
+                // carriage return exactly as the incremental paths below do.
                 FileLines.Clear();
-                FileLines.AddRange(changeLines);
+                foreach (string reloadedLine in changeLines)
+                {
+                    FileLines.Add(reloadedLine.TrimEnd('\r'));
+                }
             }
             else
             {
