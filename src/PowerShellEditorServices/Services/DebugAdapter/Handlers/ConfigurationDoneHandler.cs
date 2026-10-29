@@ -155,7 +155,7 @@ namespace Microsoft.PowerShell.EditorServices.Handlers
                 CancellationToken.None,
                 s_debuggerExecutionOptions).ConfigureAwait(false);
 
-            _debugAdapterServer.SendNotification(EventNames.Terminated);
+            _debugAdapterServer?.SendNotification(EventNames.Terminated);
         }
     }
 }
